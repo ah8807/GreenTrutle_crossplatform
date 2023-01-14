@@ -11,7 +11,7 @@ using GreenTrutle_crossplatform.interfaces;
 
 namespace GreenTrutle_crossplatform.Graphics;
 
-public class Renderer : DrawableGameComponent
+public class Renderer : RenderBase
 {
     Sprite turtleSprite = new Sprite();
     AnimatedSprite turtleWalkingSprite = new AnimatedSprite();
@@ -20,7 +20,6 @@ public class Renderer : DrawableGameComponent
     Sprite rexSprite = new Sprite();
     AnimatedSprite rexWalkingSprite = new AnimatedSprite();
 
-    SpriteBatch spriteBatch;
     RenderTarget2D renderTarget;
     const int ScreenWidth = 1920/2;
     const int ScreenHeight = 1080/2;
@@ -28,14 +27,10 @@ public class Renderer : DrawableGameComponent
 
     Level level;
 
-    public Renderer(Level level) : base(Globals.game)
+    public Renderer(Level level) : base()
     {
-        this.spriteBatch = Globals.spriteBatch;
+        this.DrawOrder = 0;
         this.level = level;
-    }
-
-    public override void Initialize()
-    {
         Globals.graphics.PreferMultiSampling = false;
         Globals.graphics.SynchronizeWithVerticalRetrace = true;
 
@@ -47,6 +42,10 @@ public class Renderer : DrawableGameComponent
         Globals.graphics.ApplyChanges();
 
         renderTarget = new RenderTarget2D(GraphicsDevice, CANVAS.Width, CANVAS.Height);
+    }
+
+    public override void Initialize()
+    {
 
         base.Initialize();
     }
@@ -56,7 +55,7 @@ public class Renderer : DrawableGameComponent
 
         turtleSprite.texture = Globals.game.Content.Load<Texture2D>("Sprite-0002");
         turtleSprite.sourceRectangle = new Rectangle(0, 0, 16, 16);
-        turtleSprite.origin = new Vector2(8, 9);
+        turtleSprite.origin = new Vector2(turtleSprite.sourceRectangle.Width/2, turtleSprite.sourceRectangle.Height/2);
 
         rexSprite.texture = Globals.game.Content.Load<Texture2D>("tiranozaver");
         rexSprite.sourceRectangle = new Rectangle(0, 0, 16, 16);
@@ -107,7 +106,7 @@ public class Renderer : DrawableGameComponent
                     sprite = rexWalkingSprite;
                     break;
             }
-            if (o is IPosition && sprite != null)
+            if (o is IParticle && sprite != null)
             {
                 AnimatedSprite animatesSprite = sprite is AnimatedSprite ? (AnimatedSprite)sprite : null;
                 if (animatesSprite != null)
@@ -119,8 +118,16 @@ public class Renderer : DrawableGameComponent
                 if (o is IRSE) { 
                     IRSE oRSE = (IRSE)o;
                     spriteBatch.Draw(sprite.texture, drawPosition, sprite.sourceRectangle, Color.White, oRSE.rotation, sprite.origin, oRSE.scale, oRSE.effect, 0);
-                }else
-                spriteBatch.Draw(sprite.texture, drawPosition, sprite.sourceRectangle, Color.White, 0f, sprite.origin, scale, SpriteEffects.None, 0);
+                }
+                else
+                {
+                    spriteBatch.Draw(sprite.texture, drawPosition, sprite.sourceRectangle, Color.White, 0f,
+                        sprite.origin, scale, SpriteEffects.None, 0);
+                }
+
+                IParticle p = (IParticle)o;
+                Rectangle rect = p.getRect();
+                DrawRectangle(rect, spriteBatch);
             }
         }
         spriteBatch.End();

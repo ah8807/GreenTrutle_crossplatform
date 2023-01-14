@@ -8,12 +8,17 @@ namespace GreenTrutle_crossplatform.scene;
 
 public class Scene : DrawableGameComponent, IEnumerable<object>
 {
+    static int trololo = 0;
+    public int id;
+    public String name;
     public List<object> items { get; set; }
     List<DrawableGameObject> removeList = new List<DrawableGameObject>();
     List<DrawableGameObject> addList = new List<DrawableGameObject>();
 
     public Scene():base(Globals.game)
     {
+        id = trololo;
+        trololo += 1;
         items = new List<object>();
     }
 

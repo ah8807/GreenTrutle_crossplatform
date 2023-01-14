@@ -5,20 +5,24 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GreenTrutle_crossplatform.scene.Objects;
 
-public class Button:DrawableGameObject, IParticle
+public class Button : DrawableGameObject, IParticle
 {
     public event EventHandler Click;
-    public Rectangle hitbox;
     public Text text;
-    public bool pressed=false;
+    public bool pressed = false;
     private MouseState oldStateM;
+    private bool isLocked = false;
+    public Vector2 origin
+    {
+        get { return new Vector2(this.aabb.Width/2, this.aabb.Height/2);}
+    }
+
     public Rectangle aabb { get; set; }
 
     public Button(Rectangle rect)
     {
         text = new Text();
-        hitbox = new Rectangle((int)position.X - rect.Width / 2, (int)position.Y - rect.Height / 2, rect.Width, rect.Height);
-        aabb = hitbox;
+        aabb = rect;
     }
 
     public void Update()
@@ -42,7 +46,9 @@ public class Button:DrawableGameObject, IParticle
         }
         oldStateM = Mstate;
         */
-        if (hitbox.Contains(Mstate.X, Mstate.Y))
+        IParticle p = (IParticle)this;
+        Rectangle r = p.getRect();
+        if (r.Contains(Mstate.X, Mstate.Y))
         {
             if (Mstate.LeftButton == ButtonState.Pressed)
             {
@@ -53,7 +59,16 @@ public class Button:DrawableGameObject, IParticle
     }
     protected virtual void OnClick()
     {
-        Click?.Invoke(this, EventArgs.Empty);
+        if (!isLocked)
+        {
+            isLocked = true;
+            Click?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public void Unlock()
+    {
+        isLocked=false;
     }
 
 }

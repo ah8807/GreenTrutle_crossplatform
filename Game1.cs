@@ -27,12 +27,11 @@ namespace GreenTrutle_crossplatform
         protected override void Initialize()
         {
             Globals.spriteBatch= new SpriteBatch(GraphicsDevice);
-            Globals.levels.Add(new Level());
-            loadLevel(Globals.levels[0]);
+            startGame();
             base.Initialize();
         }
 
-        private void loadLevel(Level level)
+        private void startGame()
         {
             //if(currGamePlay != null)
               //  this.Components.Remove((GameComponent)currGamePlay);

@@ -19,27 +19,22 @@ using System.Reflection.Emit;
 using GreenTrutle_crossplatform.scene.Objects;
 
 
-public class HudRenderer : DrawableGameComponent
+public class HudRenderer : RenderBase
 {
     public bool transparent = true;
-    SpriteBatch spriteBatch;
     RenderTarget2D renderTarget;
     const int ScreenWidth = 1920 / 2;
     const int ScreenHeight = 1080 / 2;
     static Rectangle CANVAS = new Rectangle(0, 0, 240, 135);
-    private Texture2D buttonTexture;
     SpriteFont font;
 
     Scene scene;
 
-    public HudRenderer(Scene scene) : base(Globals.game)
+    public HudRenderer(Scene scene) : base()
     {
+        this.DrawOrder = 1;
         this.spriteBatch = Globals.spriteBatch;
         this.scene = scene;
-    }
-
-    public override void Initialize()
-    {
         Globals.graphics.PreferMultiSampling = false;
         Globals.graphics.SynchronizeWithVerticalRetrace = true;
 
@@ -51,6 +46,10 @@ public class HudRenderer : DrawableGameComponent
         Globals.graphics.ApplyChanges();
 
         renderTarget = new RenderTarget2D(GraphicsDevice, CANVAS.Width, CANVAS.Height);
+    }
+
+    public override void Initialize()
+    {
 
         base.Initialize();
     }
@@ -59,8 +58,10 @@ public class HudRenderer : DrawableGameComponent
     {
         font = Globals.game.Content.Load<SpriteFont>("GUI/cupHead_font");
         
-        buttonTexture = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
-        buttonTexture.SetData(new[] {Color.White});
+        textureWhite = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+        textureWhite.SetData(new[] {Color.White});
+        textureRed = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
+        textureRed.SetData(new[] {Color.Red});
 
         base.LoadContent();
     }
@@ -93,9 +94,15 @@ public class HudRenderer : DrawableGameComponent
                     Button button = (Button)o;
                     text = button.text;
                     textMiddlePoint = font.MeasureString(text.text) / 2;
-                    spriteBatch.Draw(buttonTexture, button.position, new Rectangle(0,0,2,2), Color.White, 0,Vector2.One, new Vector2(button.hitbox.Width,button.hitbox.Height), SpriteEffects.None, 0);
+                    Vector2 buttonScale = new Vector2((float)button.aabb.Width / textureWhite.Width, (float)button.aabb.Height / textureWhite.Height);
+                    spriteBatch.Draw(textureWhite, button.position,textureWhite.Bounds , Color.White, 0,new Vector2(textureWhite.Bounds.Width/2f, textureWhite.Bounds.Height/2f), buttonScale, SpriteEffects.None, 0);
                     spriteBatch.DrawString(font, text.text, button.position, Color.Black, 0, textMiddlePoint, 1.0f,
                         SpriteEffects.None, 1);
+                    
+                    Rectangle rect = new Rectangle((int)button.position.X - button.aabb.Width / 2,
+                        (int)button.position.Y - button.aabb.Height / 2, button.aabb.Width, button.aabb.Height);
+                    DrawRectangle(rect, spriteBatch);
+                    
                     break;
                     
             }
@@ -104,5 +111,7 @@ public class HudRenderer : DrawableGameComponent
 
         base.Draw(gameTime);
     }
+    
 
 }
+

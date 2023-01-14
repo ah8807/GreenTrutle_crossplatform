@@ -21,7 +21,6 @@ namespace GreenTrutle_crossplatform.Physics
         public void createWorld()
         {
             World.grid = new int[135, 240];
-            Globals.levels.Add(new Level());
             var lines = File.ReadAllLines("../../../labirinth.txt");
             for (int i = 0; i < 135; i++)
             {
@@ -115,8 +114,7 @@ namespace GreenTrutle_crossplatform.Physics
             Rectangle rect1 = particle1.getRect();
             Rectangle rect2 = particle2.getRect();
 
-            return (rect1.X < rect2.Width && rect1.Width > rect2.X &&
-    rect1.Y < rect2.Height && rect1.Height > rect2.Y);
+            return rect1.Intersects(rect2);
         }
     }
 }

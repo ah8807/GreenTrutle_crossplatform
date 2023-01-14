@@ -29,5 +29,6 @@ public class Score: Text
     public void Reset()
     {
         this.points = 0;
+        update();
     }
 }

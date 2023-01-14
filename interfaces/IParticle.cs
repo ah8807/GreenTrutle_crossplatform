@@ -10,6 +10,7 @@ namespace GreenTrutle_crossplatform.interfaces
 {
     internal interface IParticle : IMovable, IMass, IParticleCollider
     {
+        
         public Rectangle getRect()
         {
             int x0 = (int)this.position.X - (int)this.aabb.Width / 2;
@@ -23,4 +24,5 @@ namespace GreenTrutle_crossplatform.interfaces
             aabb = new Rectangle(aabb.X, aabb.Y, aabb.Height, aabb.Width);
         }
     }
+    
 }

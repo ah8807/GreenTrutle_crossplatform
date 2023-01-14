@@ -1,4 +1,5 @@
-﻿using GreenTrutle_crossplatform.gameStates.gameplay;
+﻿using System;
+using GreenTrutle_crossplatform.gameStates.gameplay;
 using GreenTrutle_crossplatform.Graphics;
 using GreenTrutle_crossplatform.scene;
 using GreenTrutle_crossplatform.scene.Objects;
@@ -12,12 +13,8 @@ public class MainMenu:Menu
     private Gameplay gameplay; 
     public MainMenu()
     {
+        this.DrawOrder = 0;
         startB = new Button(new Rectangle(0,0,50,20));
-        
-    }
-    public override void Initialize()
-    {
-        base.Initialize();
         startB = new Button(new Rectangle(0,0,50,20));
         startB.position = new Vector2(Globals.ScreenWidth/2, 50);
         startB.text.text="STart";
@@ -29,14 +26,26 @@ public class MainMenu:Menu
         {
             gameplay = new Gameplay(new Level());
             gameplay.activate();
-            gameplay.OnClose += (sender, args) =>
+            /*gameplay.OnClose += (sender, args) =>
             {
-                gameplay?.deactivate();
+                gameplay?.Close();
                 gameplay = null;
                 activate();
             };
-            this.deactivate();
+            */
+            gameplay.OnClose += (object? sender, EventArgs args) =>
+            {
+                gameplay.Close();
+                activate();
+            };
+            deactivate();
+            startB.Unlock();
         };
+        
+
+    }
+    public override void Initialize()
+    {
         
         
     }

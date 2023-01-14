@@ -16,14 +16,17 @@ public class Menu:GameState
     {
         scene = new Scene();
         renderer = new HudRenderer(scene);
-    }
-
-    public override void Initialize()
-    {
         backB = new Button(new Rectangle(0, 0, 50, 50));
         backB.position = new Vector2(Globals.ScreenWidth/2, Globals.ScreenHeight-50);
         backB.text.text="Back";
         scene.addItem(backB);
+        
+        addComp(scene);
+        addComp(renderer);
+    }
+
+    public override void Initialize()
+    {
         
         base.Initialize();
     }
@@ -40,19 +43,4 @@ public class Menu:GameState
             }
         }
     }
-
-    public override void activate()
-    {
-        addComp(this);
-        addComp(renderer);
-        addComp(scene);
-    }
-
-    public override void deactivate()
-    {
-        removeComp(this);
-        removeComp(renderer);
-        removeComp(scene);
-    }
-    
 }

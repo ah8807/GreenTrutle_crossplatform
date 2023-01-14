@@ -35,6 +35,7 @@ namespace GreenTrutle_crossplatform.gameStates.gameplay
 
         public Gameplay(Level level)
         {
+            this.DrawOrder = 3;
             Globals.currLevel = level;
             this.level = Globals.currLevel;
 
@@ -52,17 +53,22 @@ namespace GreenTrutle_crossplatform.gameStates.gameplay
             
             options = new Options(this);
 
+            addComp(renderer);
+            addComp(physics);
+            addComp(gameHud);
+            addComp(hudRenderer);
+            
+            
+            base.Initialize();
+            options.OnClickBack += (sender, args) => {Close();
+                    options.Close();
+                    OnClose?.Invoke(this,EventArgs.Empty);
+            };
 
         }
 
         public override void Initialize()
         {
-            base.Initialize();
-            options.OnClickBack += (sender, args) => {Close();
-                 gameHud.close();
-                 gameHud.Dispose();
-                 OnClose?.Invoke(this,EventArgs.Empty);
-                };
         }
 
         public override void Update(GameTime gameTime)
@@ -73,8 +79,8 @@ namespace GreenTrutle_crossplatform.gameStates.gameplay
             KeyboardState Kstate = Keyboard.GetState();
             if (Kstate.IsKeyDown(Keys.Escape))
             {
-                Globals.game.Components.Remove(physics);
-                Globals.game.Components.Remove(this);
+                physics.Enabled = false;
+                this.Enabled = false;
                 options.activate();
             }
 
@@ -91,24 +97,6 @@ namespace GreenTrutle_crossplatform.gameStates.gameplay
             removeComp(this);
             removeComp(physics);
         }
-        public override void activate()
-        {
-            addComp(this);
-            addComp(physics);
-            addComp(renderer);
-            addComp(level);
-            addComp(gameHud);
-            addComp(hudRenderer);
-        }
 
-        public override void deactivate()
-        {
-            removeComp(this);
-            removeComp(physics);
-            removeComp(renderer);
-            removeComp(level);
-            removeComp(gameHud);
-            removeComp(hudRenderer);
-        }
     }
 }

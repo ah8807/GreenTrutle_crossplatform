@@ -55,9 +55,9 @@ namespace GreenTrutle_crossplatform
         {
             Rectangle rect = particle.getRect();
 
-            for (int i = rect.X; i <= rect.Width; i++)
+            for (int i = rect.X-1; i <= rect.Width+rect.X-1; i++)
             {
-                for (int j = rect.Y; j <= rect.Height; j++)
+                for (int j = rect.Y; j <= rect.Height+rect.Y; j++)
                 {
                     if (i > 240 || i < 0 || j > 135 || j < 0)
                     {
