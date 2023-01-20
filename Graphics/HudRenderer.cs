@@ -27,12 +27,14 @@ public class HudRenderer : RenderBase
     const int ScreenHeight = 1080 / 2;
     static Rectangle CANVAS = new Rectangle(0, 0, 240, 135);
     SpriteFont font;
+    private Sprite turtleSprite=new Sprite();
+    private Vector2 gameScale = new Vector2(ScreenWidth, ScreenHeight) / new Vector2(240, 135);
 
     Scene scene;
 
     public HudRenderer(Scene scene) : base()
     {
-        this.DrawOrder = 1;
+        DrawOrder = 1;
         this.spriteBatch = Globals.spriteBatch;
         this.scene = scene;
         Globals.graphics.PreferMultiSampling = false;
@@ -62,6 +64,11 @@ public class HudRenderer : RenderBase
         textureWhite.SetData(new[] {Color.White});
         textureRed = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
         textureRed.SetData(new[] {Color.Red});
+        
+        turtleSprite.texture = Globals.game.Content.Load<Texture2D>("Sprite-0002");
+        turtleSprite.sourceRectangle = new Rectangle(0, 1, 16, 15);
+        turtleSprite.origin = new Vector2((turtleSprite.texture.Width / 6)/2, turtleSprite.texture.Height/2);
+        
 
         base.LoadContent();
     }
@@ -101,8 +108,15 @@ public class HudRenderer : RenderBase
                     
                     Rectangle rect = new Rectangle((int)button.position.X - button.aabb.Width / 2,
                         (int)button.position.Y - button.aabb.Height / 2, button.aabb.Width, button.aabb.Height);
-                    DrawRectangle(rect, spriteBatch);
-                    
+                    break;
+                case Lives l:
+                    Lives lives = (Lives)l;
+                    lives.sprite = turtleSprite;
+                    lives.Update();
+                    foreach (Vector2 position in lives.positions)
+                    {
+                        spriteBatch.Draw(turtleSprite.texture, position,turtleSprite.sourceRectangle , Color.White, 0,turtleSprite.origin, lives.textScale, SpriteEffects.None, 0);
+                    }
                     break;
                     
             }

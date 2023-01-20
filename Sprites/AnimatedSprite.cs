@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.Versioning;
 using System.Text;
 using System.Threading.Tasks;
+using GreenTrutle_crossplatform.tools;
 
 namespace GreenTrutle_crossplatform.Sprites
 {
@@ -16,12 +17,16 @@ namespace GreenTrutle_crossplatform.Sprites
         public int Columns { get; set; }
         private int currentFrame;
         private int totalFrames;
-        private TimeSpan prevTime;
-        public int updateTimer=100;
         public Vector2 origin;
+        public int speed
+        {
+            set{ this.timer.updateTimer = value; }
+        }
+        private Timer timer;
         public AnimatedSprite()
         {
-
+            this.timer = new Timer(100);
+            timer.repeat += update;
         }
 
         public AnimatedSprite(Texture2D texture, int rows, int columns)
@@ -33,14 +38,9 @@ namespace GreenTrutle_crossplatform.Sprites
             totalFrames = Rows * Columns;
         }
 
-        public void update(GameTime gameTime)
+        public void update(Object? o, EventArgs args)
         {
-
-            if (gameTime.TotalGameTime.TotalMilliseconds - prevTime.TotalMilliseconds > updateTimer)
-            {
-                currentFrame = (currentFrame + 1) % (Columns * Rows);
-                prevTime = gameTime.TotalGameTime;
-            }
+            currentFrame = (currentFrame + 1) % (Columns * Rows);
         }
         public Sprite getFrame(GameTime gameTime)
         {
@@ -54,8 +54,6 @@ namespace GreenTrutle_crossplatform.Sprites
             frame.sourceRectangle = new Rectangle(width * column, height * row, width, height);
             frame.texture = this.texture;
             frame.origin = this.origin;
-            update(gameTime);
-
             return frame;
         }
     }

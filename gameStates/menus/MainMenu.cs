@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using GreenTrutle_crossplatform.gameStates.gameplay;
 using GreenTrutle_crossplatform.Graphics;
 using GreenTrutle_crossplatform.scene;
 using GreenTrutle_crossplatform.scene.Objects;
+using GreenTrutle_crossplatform.tools;
 using Microsoft.Xna.Framework;
 
 namespace GreenTrutle_crossplatform.GameStates.menus;
@@ -37,6 +40,7 @@ public class MainMenu:Menu
             {
                 gameplay.Close();
                 activate();
+                cleanUpComponents();
             };
             deactivate();
             startB.Unlock();
@@ -48,6 +52,26 @@ public class MainMenu:Menu
     {
         
         
+    }
+
+    public void cleanUpComponents()
+    {
+        List<GameComponent> removeList = new List<GameComponent>();
+        IEnumerator e = Globals.game.Components.GetEnumerator();
+        while (e.MoveNext())
+        {
+            if ((e.Current is DrawableGameComponent&&comps.Contains((DrawableGameComponent)e.Current))||e.Current is DebugRenderer)
+            {
+                continue;
+            }
+            removeList.Add((GameComponent)e.Current);
+        }
+
+        foreach (Object comp in removeList)
+        {
+            GameComponent gcomp = (GameComponent)comp;
+            Globals.game.Components.Remove(gcomp);
+        }
     }
     public override void Update(GameTime gameTime)
     {

@@ -1,20 +1,71 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Numerics;
+using GreenTrutle_crossplatform.interfaces;
 using GreenTrutle_crossplatform.scene;
-using Microsoft.Xna.Framework;
+using Vector2 = Microsoft.Xna.Framework.Vector2;
 
 namespace GreenTrutle_crossplatform.player.AI;
 
 public class AStar
 {
-    public static List<int[]> findPath(int[][] maze, DrawableGameObject player,DrawableGameObject ai, List<int[]> tresures){
+    public List<Vector2> directions = new List<Vector2>();
+    private DrawableGameObject player;
+    private DrawableGameObject ai;
+    public AStar(DrawableGameObject player,DrawableGameObject ai)
+    {
+        this.player = player;
+        this.ai = ai;
+    }
+
+    public void Find(Vector2 playerPosition)
+    {
+        directions.Clear();
+        List<int[]> tmp_directions = findPath(World.grid, playerPosition, ai, new List<int[]>());
+        List<Vector2> tmp_dir = new List<Vector2>();
+        
+        for(int i = 0 ; i<tmp_directions.Count-1 ; i++)
+        {
+            Vector2 curr=new Vector2(tmp_directions[i][0],tmp_directions[i][1]);
+            Vector2 next=new Vector2(tmp_directions[i+1][0],tmp_directions[i+1][1]);
+            tmp_dir.Add(next-curr);
+        }
+
+        bool init = false;
+        Vector2 prev = default(Vector2);
+        foreach (Vector2 item in tmp_dir)
+        {
+            if (!init)
+                init = true;
+            else if (prev.Equals(item))
+                continue;
+
+            prev = item;
+            directions.Add(item);
+        }
+        /*
+        if(tmp_dir.Any())
+            directions.Add(tmp_dir[0]);
+        for(int i = 0 ; i<tmp_dir.Count-1 ; i++)
+        {
+            if (!(tmp_dir[i] == tmp_dir[i + 1]))
+            {
+                directions.Add(tmp_dir[i]);
+            }
+        }
+        if(tmp_dir.Any())
+            directions.Add(tmp_dir[tmp_dir.Count-1]);
+            */
+    }
+    public static List<int[]> findPath(int[,] maze, Vector2 playerPosition,DrawableGameObject ai, List<int[]> tresures){
         List<int[]> path = new List<int[]>();
-        List<Vector2> Q = new List<Vector2>();
-        int n = maze.GetLength(0);
-        int m = maze.GetLength(1);
-        Vector2 start = ai.position;
-        int[] end = player.position;
+        List<int[]> Q = new List<int[]>();
+        int m = maze.GetLength(0);
+        int n = maze.GetLength(1);
+        int[] start = new[] { (int)ai.position.X, (int)ai.position.Y };
+        int[] end = new[] { (int)playerPosition.X, (int)playerPosition.Y };
 
         //v array dodaj start
         Q.Add(start);
@@ -42,7 +93,7 @@ public class AStar
         while(Q.Any()){
             int[] curNode = getMinNode(Q, fScore);
             //če ni zakladov in si na cilju vrni pot
-            if(maze[curNode[0]][curNode[1]]==-4&&!tresures.Any()){
+            if(new Vector2(curNode[0],curNode[1])==new Vector2(end[0],end[1])&&!tresures.Any()){
                 path=getPath(curNode,parent);
                 path.Reverse();
                 return path;
@@ -54,16 +105,14 @@ public class AStar
                 int i = curNode[0] + d[0];
                 int j = curNode[1] + d[1];
                 //če zadeneš zid nadaljuj
-                if(maze[i][j]==1){
+                IParticle newPos = (IParticle)ai.Clone();
+                newPos.position = new Vector2(i, j);
+                if(World.collision(newPos)){
                     continue;
                 }
-                int cost=0;
-                if(maze[curNode[0]][curNode[1]]!=-2&&maze[curNode[0]][curNode[1]]!=-4&&maze[curNode[0]][curNode[1]]!=-3){
-//                  cost=maze[curNode[0]][curNode[1]];
-                    cost=1;
-                }
+                int cost=1;
                 int t_gScore = gScore[curNode[0],curNode[1]]+cost;
-                //če si našev nobo bolj optimalno pot do soseda ogliča v katerem se nahajaš popravi vrenosti cen v gScore in fScore za tega soseda
+                //če si našev novo bolj optimalno pot do soseda ogliča v katerem se nahajaš popravi vrenosti cen v gScore in fScore za tega soseda
                 if(t_gScore<gScore[i,j]){
                     parent[i,j]=curNode;
                     gScore[i,j]=t_gScore;

@@ -62,6 +62,7 @@ public abstract class GameState : DrawableGameComponent
         {
             Globals.game.Components.Remove(comp);
         }
+        Globals.debugRenderer.removeScene(this);
     }
 
 }

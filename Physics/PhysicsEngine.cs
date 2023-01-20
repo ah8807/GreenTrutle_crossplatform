@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GreenTrutle_crossplatform.scene.Objects;
 using tainicom.Aether.Physics2D.Fluids;
 
 namespace GreenTrutle_crossplatform.Physics
@@ -21,7 +22,7 @@ namespace GreenTrutle_crossplatform.Physics
         public void createWorld()
         {
             World.grid = new int[135, 240];
-            var lines = File.ReadAllLines("../../../labirinth.txt");
+            var lines = File.ReadAllLines("../../../lab1.txt");
             for (int i = 0; i < 135; i++)
             {
                 for (int j = 0; j < 240; j++)
@@ -53,6 +54,7 @@ namespace GreenTrutle_crossplatform.Physics
                     if (World.collision(particle1))
                     {
                         ICustomCollider part1= o is ICustomCollider ? (ICustomCollider)o : null;
+                        // if(!(part1 is Lettuce))
                         if (part1!=null && part1.collidingWithItem(new World())){
                             resolve(particle1);
                         }

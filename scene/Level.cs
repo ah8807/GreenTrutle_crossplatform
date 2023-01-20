@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using GreenTrutle_crossplatform.interfaces;
 using GreenTrutle_crossplatform.scene.Objects;
 using Microsoft.Xna.Framework;
 namespace GreenTrutle_crossplatform.scene;
 
-public class Level : DrawableGameComponent
+public class Level : DrawableGameComponent,IScene
 {
     public Scene scene { get; set; }
     public Turtle turtle { get; set; }
@@ -17,6 +18,8 @@ public class Level : DrawableGameComponent
     public Trex trex { get; set; }
     public Level():base(Globals.game)
     {
+        Globals.debugRenderer.addScene(this);
+        
         turtle= new Turtle();
         turtle.position = new Vector2(8,7);
 

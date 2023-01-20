@@ -6,9 +6,20 @@ namespace GreenTrutle_crossplatform;
 
 public class EventManager
 {
+    private static EventManager instance;
+    public static EventManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = new EventManager();
+            }
+            return instance;
+        }
+    }
     private Dictionary<string, EventHandler<Dictionary<string, object>>> eventDictionary;
-    private ArrayList eventList = new ArrayList();
-    public EventManager()
+    private EventManager()
     {
         eventDictionary = new Dictionary<string, EventHandler<Dictionary<string, object>>>();
     }
@@ -20,13 +31,11 @@ public class EventManager
         {
             thisEvent += listener;
             eventDictionary[eventName] = thisEvent;
-            eventList.Add(listener);
         }
         else
         {
             thisEvent += listener;
             eventDictionary.Add(eventName, thisEvent);
-            eventList.Add(listener);
         }
     }
     public void Unsubscribe(string eventName, EventHandler<Dictionary<string, object>> listener)
@@ -36,7 +45,6 @@ public class EventManager
         {
             thisEvent -= listener;
             eventDictionary[eventName] = thisEvent;
-            eventList.Remove(listener);
         }
     }
 
@@ -49,18 +57,15 @@ public class EventManager
         }
     }
 
-    public void clearAll(string eventName)
+    public void clearAll()
     {
-        EventHandler<Dictionary<string, object>> thisEvent;
-
-
-        if (eventDictionary.TryGetValue(eventName, out thisEvent))
+        eventDictionary.Clear();
+    }
+    public void ClearListeners(string eventType)
+    {
+        if (eventDictionary.ContainsKey(eventType))
         {
-            foreach (EventHandler<Dictionary<string, object>> even in eventList)
-            {
-                thisEvent -= even;
-                eventDictionary[eventName] = thisEvent;
-            } 
+            eventDictionary.Remove(eventType);
         }
     }
 }

@@ -17,6 +17,8 @@ namespace GreenTrutle_crossplatform.scene.Objects
         public Vector2 scale { get; set; }
         public SpriteEffects effect { get; set; }
 
+        public event EventHandler gameOver;
+
         public bool collWithTerain=false;
 
         public Turtle() {
@@ -31,6 +33,7 @@ namespace GreenTrutle_crossplatform.scene.Objects
         {
             if (item is World)
                 collWithTerain = true;
+            
             return true;
         }
 
@@ -38,5 +41,6 @@ namespace GreenTrutle_crossplatform.scene.Objects
         {
 
         }
+
     }
 }

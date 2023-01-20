@@ -6,9 +6,9 @@ using Microsoft.Xna.Framework;
 
 namespace GreenTrutle_crossplatform.GameStates.menus;
 
-public class Menu:GameState
+public class Menu:GameState, IScene
 {
-    protected Scene scene;
+    public Scene scene { get; set; }
     protected HudRenderer renderer;
     protected Button backB;
     
@@ -23,6 +23,7 @@ public class Menu:GameState
         
         addComp(scene);
         addComp(renderer);
+        Globals.debugRenderer.addScene(this);
     }
 
     public override void Initialize()
@@ -43,4 +44,5 @@ public class Menu:GameState
             }
         }
     }
+    
 }

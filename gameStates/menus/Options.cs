@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml.Linq;
 using GreenTrutle_crossplatform.gameStates.gameplay;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -19,9 +20,19 @@ public class Options:Menu
         backB.Click += (sender, args) =>
         {
             OnClickBack?.Invoke(this, EventArgs.Empty);
+            SaveOptions();
         };
     }
 
+    private void SaveOptions()
+    {
+        XDocument xml = new XDocument(new XElement("Root",
+                                                    new XElement("Options","")));
+        xml.Element("Root").Element("Options").Add(new XElement("Option",
+                                                                    new XElement("Name","Score"),
+                                                                    new XElement("Value",gameplay.gameHud.score.points)));
+        Globals.save.saveFile(xml,"options.xml");
+    }
     public override void Initialize()
     {
     }

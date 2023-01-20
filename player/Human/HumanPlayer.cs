@@ -20,7 +20,7 @@ namespace GreenTrutle_crossplatform.player.Human
     internal class HumanPlayer : Player
     {
         KeyboardState previousState;
-        static int speed = 15;
+        static int speed = 50;
         Vector2 up = new Vector2(0, -speed);
         Vector2 down = new Vector2(0, speed);
         Vector2 left =  new Vector2(-speed, 0);

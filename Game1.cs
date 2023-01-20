@@ -5,6 +5,7 @@ using GreenTrutle_crossplatform.gameStates.gameplay;
 using GreenTrutle_crossplatform.GameStates.menus;
 using GreenTrutle_crossplatform.Graphics;
 using GreenTrutle_crossplatform.scene;
+using GreenTrutle_crossplatform.tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -22,6 +23,8 @@ namespace GreenTrutle_crossplatform
             Globals.game = this;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            Globals.appDataFilePath=Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            Globals.save = new Save();
         }
 
         protected override void Initialize()
@@ -39,8 +42,10 @@ namespace GreenTrutle_crossplatform
             //this.Components.Add(currGamePlay);
             if(menu != null)
                 this.Components.Remove((GameComponent)menu);
+            Globals.debugRenderer = new DebugRenderer();
             menu = new MainMenu();
             menu.activate();
+            Globals.game.Components.Add(Globals.debugRenderer);
         }
     }
 }

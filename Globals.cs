@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GreenTrutle_crossplatform.Graphics;
 using GreenTrutle_crossplatform.scene.Objects;
+using GreenTrutle_crossplatform.tools;
 using Microsoft.Xna.Framework.Graphics;
 using tainicom.Aether.Physics2D.Fluids;
 
@@ -15,13 +17,16 @@ namespace GreenTrutle_crossplatform
     internal class Globals
     {
         public static GraphicsDeviceManager graphics { get; set; }
+        public static DebugRenderer debugRenderer;
         public static Level currLevel { get; set; }
         public static List<Level> levels { get; set; } = new List<Level>();
         public static Game game;
         public static SpriteBatch spriteBatch;
         public static int ScreenWidth = 1920 / 2;
         public static int ScreenHeight = 1080 / 2;
-        public static EventManager eventManager = new EventManager();
+        public static EventManager eventManager=EventManager.Instance;
+        public static String appDataFilePath;
+        public static Save save;
         public static Vector2 calcMovment(IMovable movable, GameTime gameTime)
         {
             float x = (float)(movable.position.X + gameTime.ElapsedGameTime.TotalSeconds * movable.velocity.X);
@@ -59,7 +64,7 @@ namespace GreenTrutle_crossplatform
             {
                 for (int j = rect.Y; j <= rect.Height+rect.Y; j++)
                 {
-                    if (i > 240 || i < 0 || j > 135 || j < 0)
+                    if (i >= 240 || i <= 0 || j >= 135 || j <= 0)
                     {
                         return true;
                     }

@@ -2,33 +2,39 @@
 
 public class Score: Text
 {
-    private int points;
-    
+    private int _points;
+
+    public int points
+    {
+        set { _points = value; update(); }
+        get { return _points; }
+    }
+
     public Score() 
     {
-        points = 0;
-        this.text = "Score: "+points;
+        _points = 0;
+        this.text = "Score: "+_points;
     }
 
     public void incScore()
     {
-        this.points++;
+        this._points++;
         update();
     }
     public void decScore()
     {
-        this.points--;
+        this._points--;
         update();
     }
 
     private void update()
     {
-        this.text = "Score: " + points;
+        this.text = "Score: " + _points;
     }
 
     public void Reset()
     {
-        this.points = 0;
+        this._points = 0;
         update();
     }
 }

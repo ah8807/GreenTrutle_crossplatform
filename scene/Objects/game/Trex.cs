@@ -19,6 +19,8 @@ namespace GreenTrutle_crossplatform.scene.Objects
 
         public bool collWithTerain = false;
 
+        public bool hunting = false;
+
         public Trex()
         {
             aabb = new Rectangle(0, 0, 13, 13);
@@ -32,6 +34,10 @@ namespace GreenTrutle_crossplatform.scene.Objects
         {
             if (item is World)
                 collWithTerain = true;
+            if (item is Turtle&&hunting)
+            {
+                Globals.eventManager.Trigger("killTurtle",this,new Dictionary<string, object>(){{"Turtle",item}});
+            }
             return true;
         }
 
