@@ -25,15 +25,15 @@ public class Lives:DrawableGameObject, IParticle
         lives = maxLives;
     }
 
-    public void Update()
+    public void Update(Vector2 hudScale)
     {
         positions.Clear();
         //textScale = new Vector2(((float)aabb.Width/maxLives/aabb.Width),((float)aabb.Width/maxLives)/aabb.Width);
-        textScale = new Vector2((aabb.Width / sprite.sourceRectangle.Width)/maxLives, (aabb.Width / sprite.sourceRectangle.Width)/maxLives);
+        textScale = new Vector2((aabb.Width / sprite.sourceRectangle.Width)/maxLives, (aabb.Width / sprite.sourceRectangle.Width)/maxLives)*hudScale;
         for (int i = 0; i < maxLives; i++)
         {
             if(positions.Count<lives)
-                positions.Add(new Vector2(((aabb.Width / maxLives)/2+(aabb.Width / maxLives)*i)+position.X-aabb.Width/2, position.Y));
+                positions.Add(new Vector2(((aabb.Width*hudScale.X / maxLives)/2+(aabb.Width*hudScale.X / maxLives)*i)+position.X-aabb.Width*hudScale.X/2, position.Y*hudScale.Y));
         }
         
     }

@@ -5,6 +5,7 @@ using GreenTrutle_crossplatform.gameStates.gameplay;
 using GreenTrutle_crossplatform.GameStates.menus;
 using GreenTrutle_crossplatform.Graphics;
 using GreenTrutle_crossplatform.scene;
+using GreenTrutle_crossplatform.sound;
 using GreenTrutle_crossplatform.tools;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -29,10 +30,26 @@ namespace GreenTrutle_crossplatform
 
         protected override void Initialize()
         {
+            Globals.soundControl = new SoundControl("queen");
             Globals.spriteBatch= new SpriteBatch(GraphicsDevice);
             startGame();
             base.Initialize();
         }
+
+        protected override void LoadContent()
+        {
+            Globals.soundControl.addSound("pickUpLettuce","pickupCoin",1);
+            Globals.soundControl.addSound("die","die",1);
+            Globals.soundControl.addSound("win","win",1);
+            base.LoadContent();
+        }
+
+        protected override void Update(GameTime gameTime)
+        {
+            Globals.gameTime = gameTime;
+            base.Update(gameTime);
+        }
+        
 
         private void startGame()
         {
@@ -43,7 +60,7 @@ namespace GreenTrutle_crossplatform
             if(menu != null)
                 this.Components.Remove((GameComponent)menu);
             Globals.debugRenderer = new DebugRenderer();
-            menu = new MainMenu();
+            menu = new MainMenu(null);
             menu.activate();
             Globals.game.Components.Add(Globals.debugRenderer);
         }

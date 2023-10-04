@@ -2,7 +2,7 @@
 
 namespace GreenTrutle_crossplatform.interfaces
 {
-    internal interface IParticleCollider
+    public interface IParticleCollider
     {
         Rectangle aabb { get; set; } 
     }

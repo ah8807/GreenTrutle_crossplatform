@@ -42,7 +42,7 @@ namespace GreenTrutle_crossplatform.Sprites
         {
             currentFrame = (currentFrame + 1) % (Columns * Rows);
         }
-        public Sprite getFrame(GameTime gameTime)
+        public Sprite getFrame()
         {
             int width = texture.Width / Columns;
             int height = texture.Height / Rows;
@@ -55,6 +55,11 @@ namespace GreenTrutle_crossplatform.Sprites
             frame.texture = this.texture;
             frame.origin = this.origin;
             return frame;
+        }
+
+        public void Close()
+        {
+            timer.Close();
         }
     }
 }

@@ -8,11 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using GreenTrutle_crossplatform.Physics;
 using tainicom.Aether.Physics2D.Dynamics;
 using GreenTrutle_crossplatform.scene.Objects;
 using GreenTrutle_crossplatform.tools;
+using tainicom.Aether.Physics2D.Fluids;
+using World = GreenTrutle_crossplatform.Physics.World;
 
 namespace GreenTrutle_crossplatform.player.AI
 {
@@ -27,10 +31,15 @@ namespace GreenTrutle_crossplatform.player.AI
         Vector2 still = Vector2.Zero;
         private AStar alg;
         private Timer randomT = new Timer(5 * 1000);
+        private Timer moving_in_same_direction_for_n_seconds = new Timer(20);
+        private Timer between_time = new Timer(20);
+        // private Timer isStuck = new Timer(1000);
+        private bool oneTime = false;
 
         private static string StateRandom = "Random";
         private static string StateHunt = "Hunt";
         private static string StateSearch = "Search";
+        private static string StateRun = "Run";
 
         private bool hunting = false;
 
@@ -57,7 +66,7 @@ namespace GreenTrutle_crossplatform.player.AI
             pBody = (IParticle)body;
             tBody = (Trex)body;
             playerBody = (Turtle)turtle;
-            alg = new AStar(playerBody, tBody);
+            alg = new AStar(playerBody, tBody,(int)Globals.gameSize.X, (int)Globals.gameSize.Y);
 
             pBody.velocity = left;
 
@@ -68,32 +77,7 @@ namespace GreenTrutle_crossplatform.player.AI
 
             randomT.oneTime += changeState;
         }
-
-        private Boolean canMove(DrawableGameObject body, Vector2 direction)
-        {
-            IParticle clone = null;
-            if (body is IParticle)
-                clone = (IParticle)body.Clone();
-            else
-                return false;
-            IParticle boodyParticle = (IParticle)body;
-            clone.velocity = Globals.getDirection(direction);
-            clone.position += clone.velocity;
-            if (World.collision(clone))
-            {
-                clone.rotate();
-                if (World.collision(clone))
-                {
-                    return false;
-                }
-
-                boodyParticle = (IParticle)body;
-                boodyParticle.rotate();
-            }
-
-            return true;
-        }
-
+        
         private void setDirection(DrawableGameObject body, Vector2 direction)
         {
             if (canMove(body, direction))
@@ -103,7 +87,9 @@ namespace GreenTrutle_crossplatform.player.AI
                 setRSE(body, direction);
             }
             else
+            {
                 pendingMove = direction;
+            }
 
         }
 
@@ -145,7 +131,20 @@ namespace GreenTrutle_crossplatform.player.AI
         {
             if (state == StateRandom)
             {
+                if (!oneTime)
+                {
+                    World.grid=World.CreateGrid(this, null);
+                    oneTime = true;
+                }
+                if (!alg.Find(playerBody.position))
+                {
+                    randomT.elapsed = false;
+                    return;
+                }
+                
                 state = StateSearch;
+                body.velocity = alg.directions.First() * speed;
+                alg.directions.RemoveAt(0);
             }
             else if (state == StateHunt)
             {
@@ -159,50 +158,87 @@ namespace GreenTrutle_crossplatform.player.AI
 
         public void Update(GameTime gameTime)
         {
-            if (seePlayer() && playerBody.velocity != Vector2.Zero)
+            if (playerBody.unlocked_edibles.OfType<Trex>().Any())
+                state = StateRun;
+            if(state == StateRandom||state == StateHunt)
             {
-                speed = 80;
-                Vector2 dir = Globals.getDirection(body.velocity);
-                body.velocity = dir * speed;
-                hunting = true;
-            }
-            else
-            {
-                if (hunting && seePlayer())
+                if (seePlayer() && playerBody.velocity != Vector2.Zero)
                 {
+                    speed = 80;
+                    Vector2 dir = Globals.getDirection(body.velocity);
+                    body.velocity = dir * speed;
+                    hunting = true;
                 }
                 else
                 {
-                    speed = 50;
-                    Vector2 dir = Globals.getDirection(body.velocity);
-                    body.velocity = dir * speed;
-                    hunting = false;
-                }
+                    if (hunting && seePlayer())
+                    {
+                    }
+                    else
+                    {
+                        speed = 50;
+                        Vector2 dir = Globals.getDirection(body.velocity);
+                        body.velocity = dir * speed;
+                        hunting = false;
+                    }
 
+                }
             }
 
             Vector2 direction = pBody.velocity;
-            if (tBody.collWithTerain)
-            {
-                if (state == StateRandom)
-                {
-                    direction = RandomMovement();
-                }
 
+            if (state == StateRandom)
+            {
+                if (randomT.elapsed)
+                {
+                    state=StateSearch;
+                }
+                direction = RandomMovement()*speed;
                 setDirection(body, direction);
                 tBody.collWithTerain = false;
             }
 
+            if (state == StateRun)
+            {
+                if (!seePlayer())
+                {
+                    direction = RandomMovement() * speed;
+                    setDirection(body, direction);
+                    tBody.collWithTerain = false;
+                }
+                else
+                {
+                    setDirection(body,body.velocity*-1);
+                }
+            }
+
             if (state == StateSearch)
             {
-                alg.Find(playerBody.position);
-                if (alg.directions.Any())
+                if (alg.wayPoints.Any())
                 {
-                    if (canMove(body, alg.directions[0] * speed))
+                    Globals.debugRenderer.wayPoints.AddRange(alg.wayPoints);
+                    direction = pendingMove == Vector2.Zero ? body.velocity : pendingMove;
+                    if(Vector2.Dot((alg.wayPoints[0] - body.position), Globals.getDirection(direction)) <= 2)
                     {
                         direction = alg.directions.First() * speed;
                         alg.directions.RemoveAt(0);
+                        alg.wayPoints.RemoveAt(0);
+                        
+                        // else
+                        // {
+                        //     if (!alg.Find(playerBody.position))
+                        //     {
+                        //         state = StateRandom;
+                        //     }
+                        //         
+                        // }
                     }
+                    // if (canMove(body, alg.directions[0] * speed)&&moving_in_same_direction_for_n_seconds.elapsed)
+                    // {
+                    //     moving_in_same_direction_for_n_seconds.elapsed = false;
+                    //     direction = alg.directions.First() * speed;
+                    //     alg.directions.RemoveAt(0);
+                    // }
                 }
                 else
                 {
@@ -219,97 +255,160 @@ namespace GreenTrutle_crossplatform.player.AI
 
         private bool seePlayer()
         {
-            Vector2 pPosition = new Vector2((int)playerBody.position.X, (int)playerBody.position.Y);
-            Vector2 tPosition = new Vector2((int)body.position.X, (int)body.position.Y);
+            Vector2 pPosition = World.worldScordsToTile(playerBody.position);
+            Vector2 tPosition = World.worldScordsToTile(body.position);
             Vector2 direction = Globals.getDirection(body.velocity);
-            switch (direction)
+            List<Vector2> lines = CastRay.pointAToPointB(tPosition, pPosition);
+            if (lines.Count<2 ||lines[1] - lines[0] != direction)
+                return false;
+            foreach (Vector2 v in CastRay.pointAToPointB(tPosition, pPosition))
             {
-                case var _ when direction.Equals(Globals.getDirection(left)):
-                    for (int i = (int)tPosition.X; i >= 0; i--)
-                    {
-                        if (World.grid[(int)tPosition.Y, i] == 1)
-                            return false;
-                        if (pPosition == new Vector2(i, tPosition.Y))
-                            return true;
-                    }
-
-                    break;
-                case var _ when direction.Equals(Globals.getDirection(right)):
-                    for (int i = (int)tPosition.X; i < 250; i++)
-                    {
-                        if (World.grid[(int)tPosition.Y, i] == 1)
-                            return false;
-                        if (pPosition == new Vector2(i, tPosition.Y))
-                            return true;
-                    }
-
-                    break;
-                case var _ when direction.Equals(Globals.getDirection(up)):
-                    for (int j = (int)tPosition.Y; j >= 0; j--)
-                    {
-                        if (World.grid[j, (int)tPosition.X] == 1)
-                            return false;
-                        if (pPosition == new Vector2(tPosition.X, j))
-                            return true;
-                    }
-
-                    break;
-                case var _ when direction.Equals(Globals.getDirection(down)):
-                    for (int j = (int)tPosition.Y; j < 135; j++)
-                    {
-                        if (World.grid[j, (int)tPosition.X] == 1)
-                            return false;
-                        if (pPosition == new Vector2(tPosition.X, j))
-                            return true;
-                    }
-
-                    break;
+                bool value;
+                if (!World.grid.TryGetValue(v,out value)||value)
+                {
+                    return false;
+                }
             }
-
-            return false;
+            return true;
+            // switch (direction)
+            // {
+            //     case var _ when direction.Equals(Globals.getDirection(left)):
+            //         for (int i = (int)tPosition.X; i >= 0; i--)
+            //         {
+            //             if (PhysicsEngine.grid[(int)tPosition.Y, i] == 1)
+            //                 return false;
+            //             if (pPosition == new Vector2(i, tPosition.Y))
+            //                 return true;
+            //         }
+            //
+            //         break;
+            //     case var _ when direction.Equals(Globals.getDirection(right)):
+            //         for (int i = (int)tPosition.X; i < 250; i++)
+            //         {
+            //             if (PhysicsEngine.grid[(int)tPosition.Y, i] == 1)
+            //                 return false;
+            //             if (pPosition == new Vector2(i, tPosition.Y))
+            //                 return true;
+            //         }
+            //
+            //         break;
+            //     case var _ when direction.Equals(Globals.getDirection(up)):
+            //         for (int j = (int)tPosition.Y; j >= 0; j--)
+            //         {
+            //             if (PhysicsEngine.grid[j, (int)tPosition.X] == 1)
+            //                 return false;
+            //             if (pPosition == new Vector2(tPosition.X, j))
+            //                 return true;
+            //         }
+            //
+            //         break;
+            //     case var _ when direction.Equals(Globals.getDirection(down)):
+            //         for (int j = (int)tPosition.Y; j < 135; j++)
+            //         {
+            //             if (PhysicsEngine.grid[j, (int)tPosition.X] == 1)
+            //                 return false;
+            //             if (pPosition == new Vector2(tPosition.X, j))
+            //                 return true;
+            //         }
+            //
+            //         break;
+            // }
+            //
+            // return false;
         }
 
         private Vector2 RandomMovement()
         {
             Vector2 direction;
-            bool found;
+            bool found=false;
             int ticks = rnd.Next(0, 20) % 4;
             double chance = rnd.NextDouble();
             direction = Globals.getDirection(body.velocity);
-            Vector2 bodyOpppositeDirection = direction * speed * -1;
-            if (chance < 0.01)
+            Vector2 forward = Globals.getDirection(body.velocity);
+            Vector2 backwards = new Vector2(direction.X * -1,direction.Y * -1);
+            Vector2 left =  new Vector2(direction.Y, direction.X);
+            Vector2 right = new Vector2(direction.Y * -1, direction.X * -1);
+            if (!between_time.elapsed)
             {
-                direction = bodyOpppositeDirection;
-                found = true;
+                return forward;
             }
-            else
+            between_time.elapsed = false;
+            // 0.01 chance da gre ob koliziji v rikverc
+            if (chance < 0.00 && tBody.collWithTerain)
+            {
+                direction = backwards;
+                tBody.collWithTerain = false;
+                return direction;
+            }
+            float chance_to_move=tBody.collWithTerain?0.5f:0.33f;
+            if((tBody.collWithTerain || moving_in_same_direction_for_n_seconds.elapsed))
             {
                 found = true;
-                chance = rnd.NextDouble();
-                if (chance < 0.5)
-                {
-                    direction = new Vector2(direction.Y * speed, direction.X * speed);
-                }
-                else
-                    direction = new Vector2(direction.Y * speed * -1, direction.X * speed * -1);
+                between_time.elapsed = false;
 
-                if (!canMove(body, direction))
+                chance = rnd.NextDouble();
+                if (chance < chance_to_move)
+                {
+                    direction = new Vector2(direction.Y, direction.X );
+                }
+                else if (chance >= chance_to_move && chance <= chance_to_move * 2)
+                {
+                    direction = new Vector2(direction.Y  * -1, direction.X  * -1);
+
+                }
+
+
+                if (!canMove(body, direction) && chance < chance_to_move * 2)
+                {
                     direction = direction * -1;
-                if (!canMove(body, direction))
+                    if (!canMove(body, direction))
+                        found = false;
+                }
+
+                if (chance >= chance_to_move * 2)
                     found = false;
             }
 
             if (!found)
             {
-                direction = bodyOpppositeDirection;
+                direction = forward;
+                if (chance >= chance_to_move * 2)
+                {
+                    chance = rnd.NextDouble();
+                    if (canMove(body, forward))
+                        direction = forward;
+                    else
+                    {
+                        direction = right;
+                        if (chance < 50)
+                            direction = left;
+                        if (!canMove(body, direction))
+                        {
+                            direction = direction * -1;
+                            if (!canMove(body, direction))
+                                direction = backwards;
+                        }
+                    }
+            }else
+                //če ne more nadaljevati v isti smeri ga obrne
+                if (!canMove(body, direction)&&tBody.collWithTerain)
+                {
+                    direction = backwards;
+                }
             }
-
+            if (moving_in_same_direction_for_n_seconds.elapsed&&!tBody.collWithTerain)
+            {
+                moving_in_same_direction_for_n_seconds.elapsed = false;
+            }
+            tBody.collWithTerain = false;
             return direction;
         }
 
         public void Close()
         {
             randomT.Close();
+            moving_in_same_direction_for_n_seconds.Close();
+            between_time.Close();
         }
     }
 }

@@ -14,6 +14,8 @@ public class RenderBase: DrawableGameComponent
     protected static readonly int ScreenWidth = Globals.ScreenWidth;
     protected static readonly int ScreenHeight = Globals.ScreenHeight; 
     protected static Rectangle CANVAS = new Rectangle(0, 0, 240 , 135 );
+    protected Vector2 gameScale = new Vector2(ScreenWidth, ScreenHeight) / Globals.gameSize;
+    protected Vector2 hudScale = new Vector2(Globals.ScreenWidth, Globals.ScreenHeight) / new Vector2(1920 / 2, 1080 / 2);
     
     public RenderBase() : base(Globals.game)
     {
@@ -43,6 +45,20 @@ public class RenderBase: DrawableGameComponent
         
         spriteBatch.Draw(texture, new Vector2(rect.X + rect.Width, rect.Y)*scale, null, 
             Color.Red, (float)Math.PI / 2, Vector2.Zero,   new Vector2(rect.Height*scale.Y, 1), SpriteEffects.None, 0f);
+    }
+    protected void DrawRectangleHudScale(Rectangle rect, SpriteBatch spriteBatch,Texture2D texture,Vector2 scale)
+    {
+        spriteBatch.Draw(texture, new Vector2(rect.X, rect.Y), null,
+            Color.Red, 0f, Vector2.Zero, new Vector2(rect.Width, 1), SpriteEffects.None, 0f);
+        
+        spriteBatch.Draw(texture, new Vector2(rect.X, rect.Y + rect.Height), null, 
+            Color.Red, 0f, Vector2.Zero,  new Vector2(rect.Width, 1), SpriteEffects.None, 0f);
+
+        spriteBatch.Draw(texture, new Vector2(rect.X, rect.Y), null, 
+            Color.Red, (float)Math.PI / 2, Vector2.Zero, new Vector2(rect.Height, 1), SpriteEffects.None, 0f);
+        
+        spriteBatch.Draw(texture, new Vector2(rect.X + rect.Width, rect.Y), null, 
+            Color.Red, (float)Math.PI / 2, Vector2.Zero,   new Vector2(rect.Height, 1), SpriteEffects.None, 0f);
     }
 
     

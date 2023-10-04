@@ -1,26 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="711c182f-9bcd-488b-a472-321b793d0e8d" name="Changes" comment="" />
+    <list default="true" id="711c182f-9bcd-488b-a472-321b793d0e8d" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.GreenTrutle_crossplatform/.idea/workspace-DESKTOP-Q9896D9-2.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/greentrutle_crossplatform.metadata.v5.2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/greentrutle_crossplatform.projects.v5.2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/bin/DesktopGL/Content/die.xnb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/bin/DesktopGL/Content/queen.xnb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/bin/DesktopGL/Content/win.ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/bin/DesktopGL/Content/win.xnb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/bin/DesktopGL/die.xnb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/bin/DesktopGL/queen.xnb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/bin/DesktopGL/win.ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/bin/DesktopGL/win.xnb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/die.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/die.mgcontent" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/die.mgcontent" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/queen.mgcontent" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/win.mgcontent" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/queen.mgcontent" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/win.mgcontent" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/queen.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/win.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Content/win.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/GreenTrutle_crossplatform.sln.DotSettings.user" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Physics/World.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/Debug/net6.0/Content/die.xnb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/Debug/net6.0/Content/queen.xnb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/Debug/net6.0/Content/win.ogg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/Debug/net6.0/Content/win.xnb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bin/Debug/net6.0/Newtonsoft.Json.dll" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gameStates/levelEditor/SelectScene.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gameStates/menus/HighScoreMenu.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gameStates/menus/LevelsMenu.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gameStates/menus/SettingsMenu.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/interfaces/ICombinedGameObject.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/interfaces/IEdible.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/interfaces/IStatic.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/interfaces/ITrigger.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scene/EmptyLevel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scene/Levels/CollTestLevel.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scene/Levels/LevelOne.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scene/Objects/game/Brick.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scene/Objects/gui/Knob.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scene/Objects/gui/Slider.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sound/SoundControl.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sound/SoundItem.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sound/files/die.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sound/files/pickupCoin.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sound/files/queen.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sound/files/win.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/CastRay.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/IParticleQuadTree.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/Node.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tools/NodeQuadTree.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/GreenTrutle_crossplatform/DesignTimeBuild/.dtbcache.v2" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/GreenTrutle_crossplatform/DesignTimeBuild/.dtbcache.v2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/GreenTrutle_crossplatform/FileContentIndex/4c7540d6-33d9-4b07-ac46-0a38b79b156c.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/GreenTrutle_crossplatform/FileContentIndex/53f8f01d-ea0a-4e00-8d27-52c5b3bc591c.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/GreenTrutle_crossplatform/FileContentIndex/6ccabb15-5774-4f87-8f89-aabfcc0e3c03.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/GreenTrutle_crossplatform/v17/.suo" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/GreenTrutle_crossplatform/v17/.suo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/ProjectEvaluation/greentrutle_crossplatform.metadata.v5.1" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/greentrutle_crossplatform.metadata.v5.1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vs/ProjectEvaluation/greentrutle_crossplatform.projects.v5.1" beforeDir="false" afterPath="$PROJECT_DIR$/.vs/ProjectEvaluation/greentrutle_crossplatform.projects.v5.1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Content.mgcb" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Content.mgcb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/.mgstats" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/.mgstats" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/GUI/cupHead_font.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/GUI/cupHead_font.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/SceneItems.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/SceneItems.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/Sprite-0002.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/Sprite-0002.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/labirinth.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/labirinth.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/GUI/cupHead_font.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/GUI/cupHead_font.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/SceneItems.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/SceneItems.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/Sprite-0002.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/Sprite-0002.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/labirinth.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/labirinth.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/pickupCoin.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/pickupCoin.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/solata.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/solata.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/tiranozaver.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/tiranozaver.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/velociraptor.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/net6.0/Content/velociraptor.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/pickupCoin.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/pickupCoin.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/solata.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/solata.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/tiranozaver.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/tiranozaver.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/obj/DesktopGL/velociraptor.mgcontent" beforeDir="false" afterPath="$PROJECT_DIR$/Content/obj/DesktopGL/velociraptor.mgcontent" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Game1.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Globals.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Globals.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Graphics/DebugRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Graphics/DebugRenderer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Graphics/HudRenderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Graphics/HudRenderer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Graphics/RenderBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Graphics/RenderBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Graphics/Renderer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Graphics/Renderer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GreenTrutle_crossplatform.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GreenTrutle_crossplatform.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Physics/PhysicsEngine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Physics/PhysicsEngine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Sprites/AnimatedSprite.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Sprites/AnimatedSprite.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/GreenTrutle_crossplatform.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/GreenTrutle_crossplatform.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/GreenTrutle_crossplatform.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/GreenTrutle_crossplatform.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Debug/net6.0/GreenTrutle_crossplatform.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net6.0/GreenTrutle_crossplatform.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameStates/GameState.cs" beforeDir="false" afterPath="$PROJECT_DIR$/gameStates/GameState.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameStates/gameplay/Gameplay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/gameStates/gameplay/Gameplay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameStates/levelEditor/LevelEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/gameStates/levelEditor/LevelEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameStates/menus/MainMenu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/gameStates/menus/MainMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameStates/menus/Menu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/gameStates/menus/Menu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gameStates/menus/Options.cs" beforeDir="false" afterPath="$PROJECT_DIR$/gameStates/menus/PauseMenu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/IMass.cs" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/IMass.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/IMovable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/IMovable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/IParticle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/IParticle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/IParticleCollider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/IParticleCollider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/IPosition.cs" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/IPosition.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/IScene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/IScene.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/IVelocity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/interfaces/IVelocity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interfaces/IWorld.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/GreenTrutle_crossplatform.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/ref/GreenTrutle_crossplatform.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/ref/GreenTrutle_crossplatform.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net6.0/refint/GreenTrutle_crossplatform.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net6.0/refint/GreenTrutle_crossplatform.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/GreenTrutle_crossplatform.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/GreenTrutle_crossplatform.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player/AI/AIPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/player/AI/AIPlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player/AI/AStar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/player/AI/AStar.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player/Human/HumanPlayer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/player/Human/HumanPlayer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/player/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/player/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene/DrawableGameObject.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scene/DrawableGameObject.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene/GameHud.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scene/GameHud.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene/Level.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scene/Level.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene/Objects/game/Lettuce.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scene/Objects/game/Lettuce.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene/Objects/game/Trex.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scene/Objects/game/Trex.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene/Objects/game/Turtle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scene/Objects/game/Turtle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene/Objects/game/Wall.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scene/Objects/game/Wall.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene/Objects/gui/Button.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scene/Objects/gui/Button.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene/Objects/gui/Lives.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scene/Objects/gui/Lives.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene/Objects/gui/Text.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scene/Objects/gui/Text.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scene/Scene.cs" beforeDir="false" afterPath="$PROJECT_DIR$/scene/Scene.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sound/pickupCoin.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/Save.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tools/Save.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="2JlwPLpSZIJFdV7Au7sroiM7Uhw" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/lojze/OneDrive - Univerza v Ljubljani/faks/3.letnik/1.semester/TINR/GreenTrutle_crossplatform",
-    "vue.rearranger.settings.migration": "true"
-  }
-}]]></component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -30,6 +166,7 @@
       <option name="presentableId" value="Default" />
       <updated>1672665956504</updated>
       <workItem from="1672665956508" duration="59000" />
+      <workItem from="1685972221386" duration="67000" />
     </task>
     <servers />
   </component>

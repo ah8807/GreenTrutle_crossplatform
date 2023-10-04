@@ -5,7 +5,7 @@ namespace GreenTrutle_crossplatform.tools;
 
 public class Save
 {
-    private string baseFolder;
+    public string baseFolder;
     public Save()
     {
         baseFolder = Globals.appDataFilePath + "\\GreenTurtle";

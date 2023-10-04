@@ -2,7 +2,7 @@
 
 namespace GreenTrutle_crossplatform.interfaces
 {
-    internal interface IPosition
+    public interface IPosition
     {
         Vector2 position { get; set; }
         void setX(float x)

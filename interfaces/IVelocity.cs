@@ -2,7 +2,7 @@
 
 namespace GreenTrutle_crossplatform.interfaces
 {
-    internal interface IVelocity
+    public interface IVelocity
     {
         Vector2 velocity { get; set; }
     }

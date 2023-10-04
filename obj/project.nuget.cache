@@ -1,13 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "5+jv7wIgO01oUabwxLbJ1BQxy7v/++++XSXfpQ+zhEA7O83c5BUk5VVgP1CmRiuo5CEIzCThh7dknG6tghdAyg==",
+  "dgSpecHash": "sJEBdyK39ZN2dLWcahIVdbA6jaXY3Ap0vcGPIWpz9+zBcA+AA3neMK7r4d0ctem9Sbn7eVSugmxtvreYTe5//w==",
   "success": true,
   "projectFilePath": "C:\\Users\\lojze\\OneDrive - Univerza v Ljubljani\\faks\\3.letnik\\1.semester\\TINR\\GreenTrutle_crossplatform\\GreenTrutle_crossplatform.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\lojze\\.nuget\\packages\\aether.physics2d.diagnostics.mg\\1.6.1\\aether.physics2d.diagnostics.mg.1.6.1.nupkg.sha512",
     "C:\\Users\\lojze\\.nuget\\packages\\aether.physics2d.mg\\1.6.1\\aether.physics2d.mg.1.6.1.nupkg.sha512",
     "C:\\Users\\lojze\\.nuget\\packages\\monogame.content.builder.task\\3.8.1.303\\monogame.content.builder.task.3.8.1.303.nupkg.sha512",
-    "C:\\Users\\lojze\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512"
+    "C:\\Users\\lojze\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.1.303\\monogame.framework.desktopgl.3.8.1.303.nupkg.sha512",
+    "C:\\Users\\lojze\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
   ],
   "logs": []
 }
