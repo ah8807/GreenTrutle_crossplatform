@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 
 namespace GreenTrutle_crossplatform.scene.Objects
 {
-    public class Trex : DrawableGameObject, IParticle, ICustomCollider, IRSE
+    [Serializable] 
+    public class Trex : DrawableGameObject, IParticle, ICustomCollider, IRSE, IEdible
     {
         public Rectangle aabb { get; set; }
         public float rotation { get; set; }
@@ -23,7 +24,7 @@ namespace GreenTrutle_crossplatform.scene.Objects
 
         public Trex()
         {
-            aabb = new Rectangle(0, 0, 13, 13);
+            aabb = new Rectangle(0, 0, 14, 14);
             rotation = 0;
             scale = Vector2.One;
             effect = SpriteEffects.None;
@@ -32,13 +33,27 @@ namespace GreenTrutle_crossplatform.scene.Objects
 
         public bool collidingWithItem(object item)
         {
-            if (item is World)
-                collWithTerain = true;
-            if (item is Turtle&&hunting)
+            if (item is Wall||item is Brick)
             {
-                Globals.eventManager.Trigger("killTurtle",this,new Dictionary<string, object>(){{"Turtle",item}});
+                collWithTerain = true;
+                return true;
             }
-            return true;
+
+            if (item is Turtle)
+            {
+                if (((Turtle)item).unlocked_edibles.OfType<Trex>().Any())
+                {
+                    scene.removeItem(this);
+                    return false;
+                }
+
+                if (hunting)
+                {
+                    Globals.eventManager.Trigger("killTurtle", this,
+                        new Dictionary<string, object>() { { "Turtle", item } });
+                }
+            }
+            return false;
         }
 
         public void collidedWithItem(object item)

@@ -10,6 +10,7 @@ using System.Reflection;
 using GreenTrutle_crossplatform.interfaces;
 using GreenTrutle_crossplatform.scene.Objects;
 using System.Reflection.Metadata.Ecma335;
+using GreenTrutle_crossplatform.Physics;
 using tainicom.Aether.Physics2D.Common;
 using GreenTrutle_crossplatform.player.Human.states;
 using Microsoft.VisualBasic.FileIO;
@@ -35,29 +36,16 @@ namespace GreenTrutle_crossplatform.player.Human
 
         private void setDirection(DrawableGameObject body, Vector2 direction)
         {
-            IParticle clone = null;
-            if (body is IParticle)
-                clone = (IParticle)body.Clone();
-            else
-                return;
-            IParticle boodyParticle = (IParticle)body;
-            clone.velocity = Globals.getDirection(direction);
-            clone.position += clone.velocity;
-            if (World.collision(clone))
+            if (!canMove(body,direction))
             {
-                clone.rotate();
-                if (World.collision(clone))
-                {
-                    pendingMove = direction;
-                    return;
-                }
-                boodyParticle = (IParticle)body;
-                boodyParticle.rotate();
+                pendingMove = direction;
+                return;
             }
             pendingMove = Vector2.Zero;
-            boodyParticle.velocity = direction;
+            (body as IParticle).velocity = direction;
             setRSE(body, direction);
         }
+
         public void setRSE(DrawableGameObject body, Vector2 direction)
         {
             IRSE clone = null;

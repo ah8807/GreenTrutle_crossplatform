@@ -23,6 +23,7 @@ public class Button : DrawableGameObject, IParticle
     {
         text = new Text();
         aabb = rect;
+        text.text="Turtle";
     }
 
     public void Update()
@@ -50,18 +51,20 @@ public class Button : DrawableGameObject, IParticle
         Rectangle r = p.getRect();
         if (r.Contains(Mstate.X, Mstate.Y))
         {
-            if (Mstate.LeftButton == ButtonState.Pressed)
+            if (Mstate.LeftButton == ButtonState.Pressed && oldStateM.LeftButton == ButtonState.Released)
             {
                 // Button was clicked
                 OnClick();
             }
         }
+
+        oldStateM = Mstate;
     }
     protected virtual void OnClick()
     {
         if (!isLocked)
         {
-            isLocked = true;
+            // isLocked = true;
             Click?.Invoke(this, EventArgs.Empty);
         }
     }

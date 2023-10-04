@@ -10,7 +10,8 @@ using Microsoft.VisualBasic.FileIO;
 
 namespace GreenTrutle_crossplatform.scene.Objects
 {
-    public class Lettuce: DrawableGameObject, IParticle, ICustomCollider
+    [Serializable] 
+    public class Lettuce: DrawableGameObject, IParticle, ICustomCollider,ITrigger, IEdible
     {
         public static event EventHandler OnPickUp;
         
@@ -18,8 +19,7 @@ namespace GreenTrutle_crossplatform.scene.Objects
         public Rectangle aabb { get; set; }
         public Lettuce()
         {
-            aabb = new Rectangle(0, 0, 13, 13);
-
+            aabb = new Rectangle(0, 0, 14, 14);
         }
         
         
@@ -37,6 +37,7 @@ namespace GreenTrutle_crossplatform.scene.Objects
                 {
                     this.scene.removeItem(this);
                     Globals.eventManager.Trigger("lettucePickup", this,null);
+                    Globals.soundControl.playSound("pickUpLettuce");
                 }
                 deleted = true;
             }

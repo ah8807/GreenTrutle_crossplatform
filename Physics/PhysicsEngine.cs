@@ -5,111 +5,202 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Loader;
 using System.Text;
 using System.Threading.Tasks;
 using GreenTrutle_crossplatform.scene.Objects;
+using GreenTrutle_crossplatform.tools;
+using Microsoft.VisualBasic.CompilerServices;
 using tainicom.Aether.Physics2D.Fluids;
 
 namespace GreenTrutle_crossplatform.Physics
 {
     internal class PhysicsEngine : DrawableGameComponent
     {
-        Level level;
-        public PhysicsEngine(Level level) : base(Globals.game){
+        public static QuadTree quadTree;
+        private Timer updTimer = new Timer(10);
+        EmptyLevel level;
+
+        private bool wait=false;
+        public PhysicsEngine(EmptyLevel level) : base(Globals.game){
             this.level = level;
-            createWorld();
-        }
-        public void createWorld()
-        {
-            World.grid = new int[135, 240];
-            var lines = File.ReadAllLines("../../../lab1.txt");
-            for (int i = 0; i < 135; i++)
+            quadTree = getQuadTree(level.scene);
+            World.grid=World.CreateGrid(this,null);
+            Globals.eventManager.Subscribe("sceneIStaticUpdate",updateGrid);
+            updTimer.repeat += (sender,args)=>
             {
-                for (int j = 0; j < 240; j++)
+                newCollDetection(gameTime, level.scene);
+            };
+        }
+
+        public void updateGrid(object o, Dictionary<String, object> args)
+        {
+            if (!wait)
+            {
+                wait = true;
+                Timer waitT = new Timer(2000);
+                waitT.oneTime += (o, args) =>
                 {
-                    String line = lines[i].Replace(" ", "");
-                    if (line[j] == 49)
-                        World.grid[i, j] = 1;
-                    else
-                        World.grid[i, j] = 0;
-                }
+                    // quadTree = getQuadTree(level.scene);
+                    // CreateGrid(this,null);
+            quadTree = getQuadTree(level.scene);
+            Dictionary<Vector2, bool> tmpg;
+            Parallel.Invoke(
+                () =>
+                {
+                    tmpg = World.CreateGrid(this, null);
+                    World.grid = tmpg;
+                });
+                    waitT.Close();
+                    wait = false;
+                };
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-            Vector2 oldPosition = Vector2.One;
-            foreach (DrawableGameObject o in level.scene)
+            updTimer.Enabled = this.Enabled;
+            this.gameTime = gameTime;
+            //oldCollDetection(gameTime);
+
+            base.Update(gameTime);
+        }
+
+        public GameTime gameTime { get; set; }
+
+        public void newCollDetection(GameTime gameTime,Scene scene)
+        {
+            quadTree = getQuadTree(scene);
+            List<IParticle> colidedWith;
+            foreach (IParticle p in scene)
             {
-                if(o is IMovable)
+                // if (p is IStatic||p is ITrigger)
+                //     continue;
+                Vector2 oldPosition = Vector2.One;
+                if (p is IMovable)
                 {
-                    IMovable movable = (IMovable)o;
+                    IMovable movable = (IMovable)p;
                     oldPosition = new Vector2(movable.position.X, movable.position.Y);
                     movable.position = Globals.calcMovment(movable, gameTime);
                 }
-                IParticle particle1 = o is IParticle ? (IParticle)o : null;
-                //reši kolizijo z labirintom
-                if (particle1 != null)
+                
+                colidedWith=quadTree.searchAll(p);
+                
+                foreach (IParticle item in colidedWith)
                 {
-                    if (World.collision(particle1))
+                    if (item.position == p.position && item.GetType() == p.GetType() && item is IStatic)
                     {
-                        ICustomCollider part1= o is ICustomCollider ? (ICustomCollider)o : null;
-                        // if(!(part1 is Lettuce))
-                        if (part1!=null && part1.collidingWithItem(new World())){
-                            resolve(particle1);
-                        }
+                        scene.removeItem((DrawableGameObject)item);
+                    }
+                    ICustomCollider customCollider1 = p is ICustomCollider ? (ICustomCollider)p : null;
+                    ICustomCollider customCollider2 = item is ICustomCollider ? (ICustomCollider)item : null;
+
+                    if (customCollider1 != null)
+                    {
+                        if (!(item is ITrigger) && customCollider1.collidingWithItem(item))
+                            resolveCollision(p, item);
+                        customCollider1.collidedWithItem(item);
                     }
 
-                }
-                //reši kolizijo z ostalimi elementi
-                foreach (DrawableGameObject obj2 in level.scene)
-                {
-                    IParticle particle2 = obj2 is IParticle ? (IParticle)obj2 : null;
-
-                    if (particle1 != null && particle2 != null && !particle1.Equals(particle2))
+                    if (customCollider2 != null)
                     {
-                        if (collision(particle1, particle2))
-                        {
-                            ICustomCollider customCollider1 = o is ICustomCollider ? (ICustomCollider)o : null;
-                            ICustomCollider customCollider2 = obj2 is ICustomCollider ? (ICustomCollider)obj2 : null;
-
-                            if (customCollider1 != null )
-                            {
-                                if(customCollider1.collidingWithItem(particle2))
-                                    resolveCollision(particle1, particle2);
-                                customCollider1.collidedWithItem(particle2);
-                            }
-                            if (customCollider2 != null)
-                            {
-                                if (customCollider2.collidingWithItem(particle2))
-                                    resolveCollision(particle1, particle2);
-                                customCollider2.collidedWithItem(particle1);
-                            }
-                            if(customCollider1==null && customCollider2 == null)
-                            {
-                                resolveCollision(particle1, particle2);
-                            }
-                        }
+                        if (!(p is ITrigger) &&customCollider2.collidingWithItem(p))
+                            resolveCollision(item, p);
+                        customCollider2.collidedWithItem(p);
                     }
+                    
+                    if (customCollider1 == null && customCollider2 == null)
+                    {
+                        resolveCollision(p, item);
+                    }
+                    
                 }
-
             }
-
-                base.Update(gameTime);
         }
 
-        private void resolveCollision(IParticle particle1, IParticle particle2)
+        public static QuadTree getQuadTree(Scene scene)
         {
-            
-        }
-
-        private void resolve(IParticle particle)
-        {
-            while (World.collision(particle))
+            QuadTree quadTree = new QuadTree(new Rectangle(0, 0, (int)Globals.gameSize.X, (int)Globals.gameSize.Y), 4);
+            foreach (IParticle p in scene)
             {
-                particle.position = particle.position - Globals.getDirection(particle.velocity);
+                quadTree.addPoint(p);
             }
+            
+            return quadTree;
         }
+
+        public void resolveCollision(IParticle p, IParticle item)
+        {
+            Vector2 overlap = GetMinOveralp(p, item);
+            
+            if (item is IStatic && p is IStatic)
+            {
+                p.position += overlap;
+                p.position = new Vector2((int)p.position.X, (int)p.position.Y);
+                return;
+            }else if (p is IStatic)
+            {
+                item.position-= overlap;
+                item.position = new Vector2((int)item.position.X, (int)item.position.Y);
+                return;
+            }else if (item is IStatic)
+            {
+                p.position += overlap;
+                p.position = new Vector2((int)p.position.X, (int)p.position.Y);
+                return;
+            }
+            else
+            {
+                p.position += overlap / 2;
+                item.position -= overlap / 2;
+                p.position = new Vector2((int)p.position.X, (int)p.position.Y);
+                item.position = new Vector2((int)item.position.X, (int)item.position.Y);
+            }
+
+        }
+        private Vector2 GetMinOveralp(IParticle particle, IParticle item)
+        {
+            Rectangle rect1 = particle.getRect();
+            Rectangle rect2 = item.getRect();
+            
+            Vector2 mtv = Vector2.Zero;
+            float minOverlap = float.MaxValue;
+            
+            // Left
+            float overlap = (rect1.Right - rect2.Left);
+            if (overlap < minOverlap)
+            {
+                minOverlap = overlap;
+                mtv = new Vector2(-overlap, 0);
+            }
+
+            // Right
+            overlap = (rect2.Right - rect1.Left);
+            if (overlap < minOverlap)
+            {
+                minOverlap = overlap;
+                mtv = new Vector2(overlap, 0);
+            }
+
+            // Top
+            overlap = (rect1.Bottom - rect2.Top);
+            if (overlap < minOverlap)
+            {
+                minOverlap = overlap;
+                mtv = new Vector2(0, -overlap);
+            }
+
+            // Bottom
+            overlap = (rect2.Bottom - rect1.Top);
+            if (overlap < minOverlap)
+            {
+                minOverlap = overlap;
+                mtv = new Vector2(0, overlap);
+            }
+
+            return mtv;
+        }
+        
 
         private Boolean collision(IParticle particle1, IParticle particle2)
         {
@@ -117,6 +208,12 @@ namespace GreenTrutle_crossplatform.Physics
             Rectangle rect2 = particle2.getRect();
 
             return rect1.Intersects(rect2);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            updTimer.Close();
+            base.Dispose(disposing);
         }
     }
 }

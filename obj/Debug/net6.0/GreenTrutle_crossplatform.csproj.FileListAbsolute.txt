@@ -34,3 +34,8 @@ C:\Users\lojze\OneDrive - Univerza v Ljubljani\faks\3.letnik\1.semester\TINR\Gre
 C:\Users\lojze\OneDrive - Univerza v Ljubljani\faks\3.letnik\1.semester\TINR\GreenTrutle_crossplatform\bin\Debug\net6.0\Aether.Physics2D.dll
 C:\Users\lojze\OneDrive - Univerza v Ljubljani\faks\3.letnik\1.semester\TINR\GreenTrutle_crossplatform\bin\Debug\net6.0\Content\GUI\cupHead_font.xnb
 C:\Users\lojze\OneDrive - Univerza v Ljubljani\faks\3.letnik\1.semester\TINR\GreenTrutle_crossplatform\bin\Debug\net6.0\Content\pickupCoin.xnb
+C:\Users\lojze\OneDrive - Univerza v Ljubljani\faks\3.letnik\1.semester\TINR\GreenTrutle_crossplatform\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\lojze\OneDrive - Univerza v Ljubljani\faks\3.letnik\1.semester\TINR\GreenTrutle_crossplatform\bin\Debug\net6.0\Content\queen.xnb
+C:\Users\lojze\OneDrive - Univerza v Ljubljani\faks\3.letnik\1.semester\TINR\GreenTrutle_crossplatform\bin\Debug\net6.0\Content\die.xnb
+C:\Users\lojze\OneDrive - Univerza v Ljubljani\faks\3.letnik\1.semester\TINR\GreenTrutle_crossplatform\bin\Debug\net6.0\Content\win.ogg
+C:\Users\lojze\OneDrive - Univerza v Ljubljani\faks\3.letnik\1.semester\TINR\GreenTrutle_crossplatform\bin\Debug\net6.0\Content\win.xnb

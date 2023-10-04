@@ -48,21 +48,18 @@ public class GameHud : DrawableGameComponent, IDisposable, IScene
     public int id;
     public Scene scene { get; set; }
     public Score score;
-    SoundEffect soundEffect;
     public Lives lives;
     private Timer respawnTimer=new Timer(5000);
     public GameHud() : base(Globals.game)
     {
         id = r.Next(0, 1000);
         score = new Score();
-        score.position = new Vector2(900, 30);
+        score.position = new Vector2(Globals.ScreenWidth*0.95f, Globals.ScreenHeight*0.03f);
         
         lives = new Lives();
-        lives.position = new Vector2(900, 50);
+        lives.position = new Vector2(Globals.ScreenWidth*0.95f, Globals.ScreenHeight*0.07f);
         lives.aabb = new Rectangle(0, 0, 100, 50);
-        ///Lettuce.OnPickUp += (sender, args) => { score.incScore();
-          //  soundEffect.Play();
-        //};
+
 
         Globals.eventManager.Subscribe("lettucePickup", incScore);
         Globals.eventManager.Subscribe("killTurtle", killTurtle);
@@ -74,7 +71,7 @@ public class GameHud : DrawableGameComponent, IDisposable, IScene
         
         
         XDocument xml = Globals.save.GetFile("options.xml");
-        LoadData(xml);
+        //LoadData(xml);
         Globals.debugRenderer.addScene(this);
 
 
@@ -86,7 +83,7 @@ public class GameHud : DrawableGameComponent, IDisposable, IScene
         {
             return;
         }
-
+        Globals.soundControl.playSound("die");
         lives.lives--;
         args["lives"] = lives.lives;
         Globals.eventManager.Trigger("respawnTurtle",this,args);
@@ -94,14 +91,7 @@ public class GameHud : DrawableGameComponent, IDisposable, IScene
     }
     public void incScore(Object o, Dictionary<string, object> args)
     {
-        score.incScore(); soundEffect.Play();
-    }
-    
-    
-    protected override void LoadContent()
-    {
-        soundEffect = Globals.game.Content.Load<SoundEffect>("pickupCoin");
-        base.LoadContent();
+        score.incScore();
     }
 
     public void close()
@@ -109,6 +99,7 @@ public class GameHud : DrawableGameComponent, IDisposable, IScene
         Globals.eventManager.ClearListeners("lettucePickup");
         Globals.game.Components.Remove(scene);
         Globals.debugRenderer.removeScene(this);
+        respawnTimer.Close();
     }public override void Update(GameTime gameTime)
     {
         base.Update(gameTime);

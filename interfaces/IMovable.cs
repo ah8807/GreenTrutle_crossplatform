@@ -2,7 +2,7 @@
 
 namespace GreenTrutle_crossplatform.interfaces
 {
-    internal interface IMovable : IPosition, IVelocity
+    public interface IMovable : IPosition, IVelocity
     {
     }
 }

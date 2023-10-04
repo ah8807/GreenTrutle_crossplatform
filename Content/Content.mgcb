@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin die.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:die.wav
+
 #begin GUI/File.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -37,6 +43,12 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:pickupCoin.wav
+
+#begin queen.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:queen.wav
 
 #begin SceneItems.png
 /importer:TextureImporter
@@ -97,4 +109,10 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:velociraptor.png
+
+#begin win.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:win.wav
 

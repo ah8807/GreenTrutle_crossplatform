@@ -19,20 +19,25 @@ public class Renderer : RenderBase
     Sprite lettuceSprite = new Sprite();
     Sprite rexSprite = new Sprite();
     private AnimatedSprite rexWalkingSprite = new AnimatedSprite();
-    Level level;
-    private Vector2 gameScale;
+    EmptyLevel level;
 
-    public Renderer(Level level) : base()
+    public Renderer(EmptyLevel level) : base()
     {
         DrawOrder = 0;
         this.level = level;
-        gameScale = new Vector2(ScreenWidth, ScreenHeight) / new Vector2(240, 135);
     }
 
     public override void Initialize()
     {
-
         base.Initialize();
+    }
+
+    protected override void Dispose(bool disposing)
+    {
+        turtleWalkingSprite.Close();
+        rexWalkingSprite.Close();
+        
+        base.Dispose(disposing);
     }
 
     protected override void LoadContent()
@@ -72,7 +77,6 @@ public class Renderer : RenderBase
         GraphicsDevice.Clear(Color.CornflowerBlue);
         //render igro v originalni velikosti
         spriteBatch.Begin(samplerState: SamplerState.PointClamp);
-        spriteBatch.Draw(labirintSprite.texture, Vector2.Zero, labirintSprite.sourceRectangle, Color.White, 0f, labirintSprite.origin, gameScale, SpriteEffects.None, 0);
         foreach (DrawableGameObject o in level.scene)
         {
             Sprite sprite = null;
@@ -83,42 +87,93 @@ public class Renderer : RenderBase
                         sprite = turtleSprite;
                     else
                         sprite = turtleWalkingSprite;
+                    DrawSprite(o,sprite,scale*t.scale);
                     break;
                 case Lettuce l:
                     sprite = lettuceSprite;
                     scale = new Vector2(0.5f, 0.5f)*gameScale;
+                    DrawSprite(o,sprite,scale);
                     break;
                 case Trex tr:
                     sprite = rexWalkingSprite;
+                    DrawSprite(o,sprite,scale);
+                    break;
+                case Brick brick:
+                    sprite = lettuceSprite;
+                    scale = new Vector2(2f/16f, 2f / 16f)*gameScale;
+                    DrawSprite(o,sprite,scale);
                     break;
                 case Wall wall:
                     sprite = lettuceSprite;
-                    scale = new Vector2(0.5f, 0.5f)*gameScale;
+                    scale = new Vector2(2f/16f, 2f / 16f)*gameScale;
+                    drawArrayOfSprites(o,sprite,scale);
                     break;
-            }
-            if (o is IParticle && sprite != null)
-            {
-                AnimatedSprite animatesSprite = sprite is AnimatedSprite ? (AnimatedSprite)sprite : null;
-                if (animatesSprite != null)
-                {
-                    sprite = animatesSprite.getFrame(gameTime);
-                }
-                Vector2 drawPosition = new Vector2((int)o.position.X, (int)o.position.Y);
-
-                if (o is IRSE) { 
-                    IRSE oRSE = (IRSE)o;
-                    spriteBatch.Draw(sprite.texture, drawPosition*gameScale, sprite.sourceRectangle, Color.White, oRSE.rotation, sprite.origin, scale, oRSE.effect, 0);
-                }
-                else
-                {
-                    spriteBatch.Draw(sprite.texture, drawPosition*gameScale, sprite.sourceRectangle, Color.White, 0f,
-                        sprite.origin, scale, SpriteEffects.None, 0);
-                }
             }
         }
         spriteBatch.End();
 
         base.Draw(gameTime);
+    }
+
+
+
+    public void DrawSprite(DrawableGameObject o, Sprite sprite, Vector2 scale)
+    {
+        if (o is IParticle && sprite != null)
+        {
+            AnimatedSprite animatesSprite = sprite is AnimatedSprite ? (AnimatedSprite)sprite : null;
+            if (animatesSprite != null)
+            {
+                sprite = animatesSprite.getFrame();
+            }
+
+            IParticle p = (IParticle)o;
+            // Vector2 drawPosition = new Vector2((int)o.position.X-p.aabb.Width/2, (int)o.position.Y-p.aabb.Height/2);
+            Vector2 drawPosition = new Vector2((int)o.position.X, (int)o.position.Y);
+            // Vector2 drawPosition = new Vector2(o.position.X, o.position.Y);
+
+            if (o is IRSE) { 
+                IRSE oRSE = (IRSE)o;
+                spriteBatch.Draw(sprite.texture, drawPosition*gameScale, sprite.sourceRectangle, Color.White, oRSE.rotation, sprite.origin, scale, oRSE.effect, 0);
+            }
+            else
+            {
+                spriteBatch.Draw(sprite.texture, drawPosition*gameScale, sprite.sourceRectangle, Color.White, 0f,
+                    sprite.origin, scale, SpriteEffects.None, 0);
+            }
+        }
+    }
+
+    public void drawArrayOfSprites(DrawableGameObject obj, Sprite sprite, Vector2 scale)
+    {
+        foreach (DrawableGameObject o in (obj as ICombinedGameObject).game_objects)
+        {
+            if (o is IParticle && sprite != null)
+            {
+                AnimatedSprite animatesSprite = sprite is AnimatedSprite ? (AnimatedSprite)sprite : null;
+                if (animatesSprite != null)
+                {
+                    sprite = animatesSprite.getFrame();
+                }
+
+                IParticle p = (IParticle)o;
+                // Vector2 drawPosition = new Vector2((int)o.position.X-p.aabb.Width/2, (int)o.position.Y-p.aabb.Height/2);
+                Vector2 drawPosition = new Vector2((int)o.position.X, (int)o.position.Y);
+                // Vector2 drawPosition = new Vector2(o.position.X, o.position.Y);
+
+                if (o is IRSE)
+                {
+                    IRSE oRSE = (IRSE)o;
+                    spriteBatch.Draw(sprite.texture, drawPosition * gameScale, sprite.sourceRectangle, Color.White,
+                        oRSE.rotation, sprite.origin, scale, oRSE.effect, 0);
+                }
+                else
+                {
+                    spriteBatch.Draw(sprite.texture, drawPosition * gameScale, sprite.sourceRectangle, Color.White, 0f,
+                        sprite.origin, scale, SpriteEffects.None, 0);
+                }
+            }
+        }
     }
 
 }

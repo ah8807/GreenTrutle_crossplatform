@@ -1,6 +1,6 @@
 ﻿namespace GreenTrutle_crossplatform.interfaces
 {
-    internal interface IMass
+    public interface IMass
     {
     }
 }
